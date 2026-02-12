@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Provider {
+  STRIPE
+  PAYPAL
+  GITHUB
+}
+
+enum EventStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  DEAD_LETTER
+}
+
+model Event {
+  id          String      @id @default(cuid())
+  provider    Provider
+  eventId     String      // Idempotency key
+  eventType   String
+  payload     Json
+  signature   String?
+  status      EventStatus @default(PENDING)
+  retryCount  Int         @default(0)
+  maxRetries  Int         @default(3)
+  nextRetryAt DateTime?
+  processedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([provider, eventId])
+  @@map("events")
+}
