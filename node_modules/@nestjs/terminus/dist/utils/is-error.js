@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isError = exports.isAxiosError = exports.isHealthCheckError = void 0;
+function isHealthCheckError(err) {
+    return err === null || err === void 0 ? void 0 : err.isHealthCheckError;
+}
+exports.isHealthCheckError = isHealthCheckError;
+function isAxiosError(err) {
+    return err === null || err === void 0 ? void 0 : err.isAxiosError;
+}
+exports.isAxiosError = isAxiosError;
+function isError(err) {
+    return !!(err === null || err === void 0 ? void 0 : err.message);
+}
+exports.isError = isError;
+//# sourceMappingURL=is-error.js.map

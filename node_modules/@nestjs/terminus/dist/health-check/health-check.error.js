@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.HealthCheckError = void 0;
+class HealthCheckError extends Error {
+    constructor(message, causes) {
+        super(message);
+        this.isHealthCheckError = true;
+        this.causes = causes;
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+exports.HealthCheckError = HealthCheckError;
+//# sourceMappingURL=health-check.error.js.map

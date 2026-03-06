@@ -14,36 +14,47 @@ export class WebhooksService {
   ) {}
 
   async handleWebhook(provider: Provider, eventId: string, eventType: string, payload: any, signature?: string) {
-    // Validate signature
     this.validateSignature(provider, payload, signature);
 
-    // Check idempotency
-    const existingEvent = await this.prisma.event.findUnique({
-      where: { provider_eventId: { provider, eventId } },
-    });
+    try {
+      const event = await this.prisma.event.create({
+        data: {
+          provider,
+          eventId,
+          eventType,
+          payload,
+          signature,
+          status: 'PENDING',
+        },
+      });
 
-    if (existingEvent) {
-      this.logger.log(`Event ${eventId} already processed`);
-      return { status: 'already_processed' };
+      await this.webhookJobService.queueWebhookProcessing(event.id);
+
+      this.logger.log(`Webhook queued for processing: ${event.id}`);
+      return { status: 'queued', eventId: event.id };
+    } catch (error) {
+      if (error.code === 'P2002') {
+        const existingEvent = await this.prisma.event.findUnique({
+          where: { provider_eventId: { provider, eventId } },
+        });
+
+        if (existingEvent) {
+          if (existingEvent.status === 'COMPLETED') {
+            this.logger.log(`Event ${eventId} already processed successfully`);
+            return { status: 'already_processed', eventId: existingEvent.id };
+          } else if (existingEvent.status === 'PROCESSING') {
+            this.logger.log(`Event ${eventId} already being processed`);
+            return { status: 'already_processed', eventId: existingEvent.id };
+          } else if (existingEvent.status === 'FAILED' || existingEvent.status === 'DEAD_LETTER') {
+            this.logger.log(`Event ${eventId} previously failed, re-queuing`);
+            await this.webhookJobService.queueWebhookProcessing(existingEvent.id);
+            return { status: 'requeued', eventId: existingEvent.id };
+          }
+        }
+      }
+      
+      throw error;
     }
-
-    // Create event record
-    const event = await this.prisma.event.create({
-      data: {
-        provider,
-        eventId,
-        eventType,
-        payload,
-        signature,
-        status: 'PENDING',
-      },
-    });
-
-    // Queue for processing
-    await this.webhookJobService.queueWebhookProcessing(event.id);
-
-    this.logger.log(`Webhook queued for processing: ${event.id}`);
-    return { status: 'queued', eventId: event.id };
   }
 
   private validateSignature(provider: Provider, payload: any, signature?: string) {

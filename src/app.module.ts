@@ -5,7 +5,6 @@ import { PrismaModule } from './prisma/prisma.module';
 import { WebhooksModule } from './webhooks/webhooks.module';
 import { JobsModule } from './jobs/jobs.module';
 import { HealthModule } from './health/health.module';
-import { WinstonLoggerService } from './common/winston-logger.service';
 
 @Module({
   imports: [
@@ -18,6 +17,5 @@ import { WinstonLoggerService } from './common/winston-logger.service';
     HealthModule,
     TerminusModule,
   ],
-  providers: [WinstonLoggerService],
 })
 export class AppModule {}
