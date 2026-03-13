@@ -305,3 +305,5 @@ Comprehensive input sanitization and validation:
 - **Debugging Efficiency**: Structured logs and distributed tracing
 - **Performance Monitoring**: Real-time metrics and alerting
 - **Capacity Planning**: Historical data for infrastructure sizing
+
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor%20me-%23ea4aaa?style=for-the-badge&logo=github-sponsors&logoColor=white)](https://github.com/sponsors/PkLavc)
