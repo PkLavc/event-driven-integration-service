@@ -1,0 +1,13 @@
+{
+  "service": "backend-sim",
+  "project": "event-driven-integration-service",
+  "status": "ok",
+  "source": "github-actions",
+  "lastUpdated": "pending-first-workflow-run",
+  "runId": "manual",
+  "metrics": {
+    "latencyMs": 96,
+    "successRate": 99.4,
+    "eventsProcessed": 3270
+  }
+}
