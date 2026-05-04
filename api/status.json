@@ -3,12 +3,12 @@
   "project": "event-driven-integration-service",
   "status": "ok",
   "source": "github-actions",
-  "lastUpdated": "2026-05-03T18:43:18Z",
-  "runId": "25287521680",
+  "lastUpdated": "2026-05-04T01:54:47Z",
+  "runId": "25297283327",
   "historyCount": 28,
   "metrics": {
-    "latencyMs": 104,
-    "successRate": 98.5,
-    "eventsProcessed": 3770
+    "latencyMs": 65,
+    "successRate": 98.6,
+    "eventsProcessed": 2023
   }
 }
