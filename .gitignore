@@ -36,3 +36,6 @@ Thumbs.db
 prisma/*.log
 .venv/
 __pycache__/
+
+# Backend simulation generated files
+api/
