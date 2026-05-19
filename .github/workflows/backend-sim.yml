@@ -1,5 +1,8 @@
 name: Backend Simulation Data
 
+# Triggers are disabled intentionally. This workflow generated simulation data
+# (api/status.json and api/history.json) that is no longer needed. The api/
+# directory has been removed and added to .gitignore.
 on:
   # workflow_dispatch:
   # schedule:
