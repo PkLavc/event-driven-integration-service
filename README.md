@@ -1,5 +1,11 @@
 # Event-Driven Integration Service
 
+## Portfolio Case Study
+
+Full case study: https://pklavc.com/projects/event-driven-integration-service/
+
+This repository is part of my backend integration portfolio. It demonstrates webhook ingestion, idempotent event persistence, queue-oriented processing, retry boundaries, and observability for event-driven services.
+
 ## Technical Architecture
 
 ### Event Processing Flow
